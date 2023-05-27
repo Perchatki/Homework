@@ -1,5 +1,5 @@
 ﻿ConsoleKey key;
-double a,b,value;
+double a, b, value;
 int x, y;
 int top, output;
 string alpha, beta;
@@ -142,17 +142,17 @@ while (true)
             }
             break;
         case "3":
-            start3:
+        start3:
             Console.Clear();
             Console.WriteLine("Введите 1 число");
-            
+
             if (!int.TryParse(Console.ReadLine(), out x))
             {
                 Console.WriteLine("Ошибка");
                 Console.ReadKey();
                 goto start3;
             }
-            if (x>9 || x<0)
+            if (x > 9 || x < -9)
             {
                 Console.WriteLine("Ошибка");
                 Console.ReadKey();
@@ -166,7 +166,7 @@ while (true)
                 Console.ReadKey();
                 goto start3;
             }
-            if (y > 9 || y < 0)
+            if (y > 9 || y < -9)
             {
                 Console.WriteLine("Ошибка");
                 Console.ReadKey();
@@ -205,11 +205,11 @@ while (true)
                 goto start4;
             }
 
-            if (output % 10 == 1 && output != 11) 
+            if (output % 10 == 1 && output != 11)
                 Console.WriteLine(output + " год");
-            else if (output % 10 == 2 && output != 12 || output % 10 == 3 && output != 13 || output % 10 == 4 && output != 14) 
+            else if (output % 10 == 2 && output != 12 || output % 10 == 3 && output != 13 || output % 10 == 4 && output != 14)
                 Console.WriteLine(output + " года");
-            else 
+            else
                 Console.WriteLine(output + " лет");
             break;
         default:
