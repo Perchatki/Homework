@@ -16,6 +16,7 @@ while (true)
             Console.WriteLine("Фаренгейт");
             Console.WriteLine("Кельвин");
             Console.CursorTop = 1;
+
             while ((key = Console.ReadKey(true).Key) != ConsoleKey.Enter)
             {
                 if (key == ConsoleKey.UpArrow)
@@ -27,6 +28,7 @@ while (true)
                     Console.CursorTop = 2;
                 }
             }
+
             top = Console.CursorTop;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine((top == 1) ? "Фаренгейт" : "Кельвин");
@@ -40,6 +42,7 @@ while (true)
                 Console.ReadKey();
                 goto start1;
             }
+
             Console.WriteLine("Результат: " + ((top == 1) ? ((value * 9 / 5) + 32) : (value + 273.15)));
             break;
         case "2":
@@ -52,6 +55,7 @@ while (true)
             Console.WriteLine("/");
             Console.WriteLine("%");
             Console.CursorTop = 1;
+
             while ((key = Console.ReadKey(true).Key) != ConsoleKey.Enter)
             {
                 if (key == ConsoleKey.UpArrow)
@@ -72,6 +76,7 @@ while (true)
                     Console.CursorTop = 5;
                 }
             }
+
             top = Console.CursorTop;
             Console.ForegroundColor = ConsoleColor.Red;
             switch (top)
@@ -105,6 +110,7 @@ while (true)
                 Console.ReadKey();
                 goto start2;
             }
+
             Console.WriteLine("Введите 2 число");
             if (!double.TryParse(Console.ReadLine(), out b))
             {
@@ -112,6 +118,7 @@ while (true)
                 Console.ReadKey();
                 goto start2;
             }
+
             switch (top)
             {
                 case 1:
@@ -132,7 +139,6 @@ while (true)
                 default:
                     break;
             }
-
             break;
         case "3":
             start3:
@@ -166,11 +172,9 @@ while (true)
             if (output == int.Parse(alpha) * int.Parse(beta))
             {
                 Console.WriteLine("Верно!");
+                break;
             }
-            else
-            {
-                Console.WriteLine("Неверно! Правильный ответ: " + int.Parse(alpha) * int.Parse(beta));
-            }
+            Console.WriteLine("Неверно! Правильный ответ: " + int.Parse(alpha) * int.Parse(beta));
             break;
         case "4":
         start4:
@@ -188,11 +192,16 @@ while (true)
                 Console.ReadKey();
                 goto start4;
             }
-            if (output % 10 == 1 && output != 11) Console.WriteLine(output + " год");
-            else if (output % 10 == 2 && output != 12 || output % 10 == 3 && output != 13 || output % 10 == 4 && output != 14) Console.WriteLine(output + " года");
-            else Console.WriteLine(output + " лет");
+
+            if (output % 10 == 1 && output != 11) 
+                Console.WriteLine(output + " год");
+            else if (output % 10 == 2 && output != 12 || output % 10 == 3 && output != 13 || output % 10 == 4 && output != 14) 
+                Console.WriteLine(output + " года");
+            else 
+                Console.WriteLine(output + " лет");
             break;
         default:
+            Console.WriteLine("Ошибка");
             break;
     }
     Console.ReadKey();
