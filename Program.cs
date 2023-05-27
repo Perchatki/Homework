@@ -1,5 +1,6 @@
 ﻿ConsoleKey key;
 double a,b,value;
+int x, y;
 int top, output;
 string alpha, beta;
 
@@ -144,8 +145,14 @@ while (true)
             start3:
             Console.Clear();
             Console.WriteLine("Введите 1 число");
-            alpha = Console.ReadLine();
-            if (alpha != "1" && alpha != "2" && alpha != "3" && alpha != "4" && alpha != "5" && alpha != "6" && alpha != "7" && alpha != "8" && alpha != "9" && alpha != "0")
+            
+            if (!int.TryParse(Console.ReadLine(), out x))
+            {
+                Console.WriteLine("Ошибка");
+                Console.ReadKey();
+                goto start3;
+            }
+            if (x>9 || x<0)
             {
                 Console.WriteLine("Ошибка");
                 Console.ReadKey();
@@ -153,8 +160,13 @@ while (true)
             }
 
             Console.WriteLine("Введите 2 число");
-            beta = Console.ReadLine();
-            if (beta != "1" && beta != "2" && beta != "3" && beta != "4" && beta != "5" && beta != "6" && beta != "7" && beta != "8" && beta != "9" && beta != "0")
+            if (!int.TryParse(Console.ReadLine(), out y))
+            {
+                Console.WriteLine("Ошибка");
+                Console.ReadKey();
+                goto start3;
+            }
+            if (y > 9 || y < 0)
             {
                 Console.WriteLine("Ошибка");
                 Console.ReadKey();
@@ -169,12 +181,12 @@ while (true)
                 Console.ReadKey();
                 goto start3;
             }
-            if (output == int.Parse(alpha) * int.Parse(beta))
+            if (output == x * y)
             {
                 Console.WriteLine("Верно!");
                 break;
             }
-            Console.WriteLine("Неверно! Правильный ответ: " + int.Parse(alpha) * int.Parse(beta));
+            Console.WriteLine("Неверно! Правильный ответ: " + x * y);
             break;
         case "4":
         start4:
