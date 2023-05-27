@@ -152,7 +152,7 @@ while (true)
                 Console.ReadKey();
                 goto start3;
             }
-            if (x > 9 || x < -9)
+            if (x > 9 || x < 0)
             {
                 Console.WriteLine("Ошибка");
                 Console.ReadKey();
@@ -166,7 +166,7 @@ while (true)
                 Console.ReadKey();
                 goto start3;
             }
-            if (y > 9 || y < -9)
+            if (y > 9 || y < 0)
             {
                 Console.WriteLine("Ошибка");
                 Console.ReadKey();
