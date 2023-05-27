@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\danii\\source\\repos\\ConsoleApp2\\ConsoleApp2.csproj": {}
+    "C:\\Users\\danii\\source\\repos\\Homework\\ConsoleApp2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\danii\\source\\repos\\ConsoleApp2\\ConsoleApp2.csproj": {
+    "C:\\Users\\danii\\source\\repos\\Homework\\ConsoleApp2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\danii\\source\\repos\\ConsoleApp2\\ConsoleApp2.csproj",
+        "projectUniqueName": "C:\\Users\\danii\\source\\repos\\Homework\\ConsoleApp2.csproj",
         "projectName": "ConsoleApp2",
-        "projectPath": "C:\\Users\\danii\\source\\repos\\ConsoleApp2\\ConsoleApp2.csproj",
+        "projectPath": "C:\\Users\\danii\\source\\repos\\Homework\\ConsoleApp2.csproj",
         "packagesPath": "C:\\Users\\danii\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\danii\\source\\repos\\ConsoleApp2\\obj\\",
+        "outputPath": "C:\\Users\\danii\\source\\repos\\Homework\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\danii\\AppData\\Roaming\\NuGet\\NuGet.Config",
