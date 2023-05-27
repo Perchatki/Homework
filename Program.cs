@@ -2,7 +2,6 @@
 double a, b, value;
 int x, y;
 int top, output;
-string alpha, beta;
 
 while (true)
 {
