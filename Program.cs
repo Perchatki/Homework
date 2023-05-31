@@ -26,7 +26,7 @@ while (true)
         {
             if (Console.CursorLeft == 0)
             {
-                Console.CursorLeft = variants.Length - 1;
+                Console.CursorLeft = variants.Length + 1;
             }
 
             Console.CursorLeft -= 2;
