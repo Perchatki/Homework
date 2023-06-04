@@ -98,11 +98,16 @@ while (true)
                     }
                 }
                 Console.WriteLine(table);
-                Console.ReadKey(true);
                 break;
 
             case 2:
                 variants = "1 2 3 4";
+                Highlight(selection = Select(variants, "Номер задания", 1, 0, 6, 0, 2).Item1, (selection / 2 + 1).ToString());
+
+                Console.Write("\nНажмите любую клавишу, чтобы продолжить, или Escape, чтобы отменить выбор");
+                Console.CursorTop = 1;
+                Console.CursorLeft = selection;
+
                 isSecondTask = true;
 
                 break;
