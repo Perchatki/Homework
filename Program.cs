@@ -115,6 +115,7 @@ while (true)
                 break;
         }
         Console.ReadKey(true);
+        Console.Clear();
     }
 
     switch (selection)
