@@ -1,120 +1,157 @@
 ﻿using System.Linq.Expressions;
 
+Random  random = new();
+
 ConsoleKey key;
 int selection = 0;
 
-List<int> uneven = new() {1};
-List<int> fibonacchiRow = new() {0, 1};
 
-double travelDistance = 10;
-double travelDays = 1;
+string variants = "1 2";
 
-string variants;
+bool isSecondTask = false;
+
+
+int rng = random.Next(2, 5);
+int[] array = new int[rng];
+for (int i = 0; i < rng; i++)
+{
+    rng = random.Next(-5, 5);
+    array[i] = rng;
+}
+
+int[,] journal = new int[3, 5];
+for (int i = 0; i < 3; i++)
+{
+    for (int j = 0; j < 5; j++)
+    {
+        rng = random.Next(2, 6);
+        journal[i, j] = rng;
+    }
+}
 
 while (true)
 {
-    Console.Clear();
-    Console.WriteLine("Выберите стрелочками номер задания:");
-    Console.WriteLine(variants = "1 2 3");
-
-    Console.CursorTop = 1;
-    Console.CursorLeft = selection;
-
-    while ((key = Console.ReadKey(true).Key) != ConsoleKey.Enter)
-    {
-        if (key == ConsoleKey.LeftArrow)
-        {
-            if (Console.CursorLeft == 0)
-            {
-                Console.CursorLeft = variants.Length + 1;
-            }
-
-            Console.CursorLeft -= 2;
-        }
-        else if (key == ConsoleKey.RightArrow)
-        {
-            Console.CursorLeft += 2;
-
-            if (Console.CursorLeft > variants.Length - 1)
-            {
-                Console.CursorLeft = 0;
-            }
-        }
-    }
-    selection = Console.CursorLeft;
-    Highlight(selection);
+    Highlight(selection = Select("1 2", "Номер задания",1,0,2,0,2).Item1, (selection/2+1).ToString());
 
     Console.Write("\nНажмите любую клавишу, чтобы продолжить, или Escape, чтобы отменить выбор");
     Console.CursorTop = 1;
     Console.CursorLeft = selection;
 
-    if (Console.ReadKey(true).Key == ConsoleKey.Escape) continue;
+    if (Console.ReadKey(true).Key == ConsoleKey.Escape)
+    {
+        isSecondTask = false;
+        variants = "1 2";
+        continue;
+    }
 
     Console.Clear();
+
+    if (!isSecondTask)
+    {
+        switch (selection)
+        {
+            case 0:
+                string table = "Уч Ин Ри Оо";
+                for (int i = 0;i < 5; i++)
+                {
+                    table += $"\n№{i+1} ";
+                    for (int j = 0; j < 3; j++)
+                    {
+                        table += journal[j, i] + "  ";
+                    }
+                }
+                (int,int) itemSelection = Select(table, "номер предмета", 2, 3, 9, 6, 3);
+
+                Highlight(itemSelection.Item1, "-");
+
+
+                int newValue;
+
+                retry:
+                Console.CursorTop = 0;
+                Console.CursorLeft = 0;
+                Console.Write("Введите новое значение:             ");
+                Console.CursorLeft = 23;
+                if (!int.TryParse(Console.ReadLine(), out newValue) || newValue is > 5 or < 2)
+                {
+                    Console.CursorLeft = 0;
+                    Console.CursorTop = 0;
+                    Console.Write("Ошибка. Введите новое значение:");
+                    goto retry;
+                }
+
+                journal[(itemSelection.Item1 - 3)/3, itemSelection.Item2 - 2] = newValue;
+                Console.CursorTop = 0;
+                Console.CursorLeft = 23;
+
+                Console.ReadKey(true);
+
+                Console.Clear();
+
+                table = "Уч Ин Ри Оо";
+                for (int i = 0; i < 5; i++)
+                {
+                    table += $"\n№{i + 1} ";
+                    for (int j = 0; j < 3; j++)
+                    {
+                        table += journal[j, i] + "  ";
+                    }
+                }
+                Console.WriteLine(table);
+                Console.ReadKey(true);
+                break;
+
+            case 2:
+                variants = "1 2 3 4";
+                isSecondTask = true;
+
+                break;
+            default:
+                break;
+        }
+        Console.ReadKey(true);
+    }
 
     switch (selection)
     {
         case 0:
-            while (fibonacchiRow.Count < 10)
-            {
-                fibonacchiRow.Add(FibonacchiNextDigit(fibonacchiRow));
-            }
-            Console.WriteLine("Первые 10 чисел Фибоначчи:");
-            WriteWithColor(IntListToString(fibonacchiRow),ConsoleColor.Red);
+            WriteWithColor(IntArrayToString(array.GetLength(0), array), ConsoleColor.Red);
             break;
         case 2:
-            while (uneven[uneven.Count-1] < 99)
+            int[] buffer = array;
+            for (int i = 0; i < array.Length; i++)
             {
-                uneven.Add(uneven[uneven.Count - 1] + 2);
+                array[array.Length - i - 1] = buffer[i];
             }
-
-            Console.WriteLine("Нечётные числа от 0 до 100:");
-            WriteWithColor(IntListToString(uneven), ConsoleColor.Red);
+            WriteWithColor(IntArrayToString(array.GetLength(0), array),ConsoleColor.Red);
             break;
         case 4:
-            while (travelDistance < 100)
-            {
-                travelDistance += travelDistance * 0.1;
-                travelDays++;
-            }
-            Console.Write("Начав тренировки, лыжник в первый день пробежал 10 км. \nКаждый следующий день он увеличивал пробег на 10% от \nпробега предыдущего дня. На ");
-            WriteWithColor(travelDays.ToString(), ConsoleColor.Red);
-            Console.Write(" день он преодолел \nрубеж в 100км с результатом ");
-            WriteWithColor(Math.Round(travelDistance, 2).ToString(), ConsoleColor.Red);
-            Console.Write("км");
+
+            break;
+        case 6:
+
             break;
         default:
             break;
     }
+
+    variants = "1 2";
+    isSecondTask = false;
+
     Console.ReadKey(true);
 }
 
-void Highlight(int highlightIndex)
+void Highlight(int highlightIndex, string text)
 {
-    Console.CursorLeft = 0;
-    for (int i = 0; i < highlightIndex; i++)
-    {
-        Console.Write(variants[i]);
-    }
-
-    WriteWithColor(variants[highlightIndex].ToString(), ConsoleColor.Red);
-
-    for (int i = highlightIndex + 1; i < variants.Length - 1; i++)
-    {
-        Console.Write(variants[i]);
-    }
-}
-
-int FibonacchiNextDigit(List<int> input)
-{
-    return (input[input.Count - 2] + input[input.Count - 1]);
+    Console.CursorLeft = highlightIndex;
+    WriteWithColor(text, ConsoleColor.Red);
 }
 
 
-string IntListToString(List<int> input)
+string IntArrayToString(int transferCounter,int[] input = null)
 {
     string output = "";
-    int transferCounter = 10;
+    int max = transferCounter;
     foreach (int i in input)
     {
         output += i + (i / 10 < 1 ? "  " : " ");
@@ -122,7 +159,7 @@ string IntListToString(List<int> input)
         transferCounter--;
         if (transferCounter <= 0)
         {
-            transferCounter = 10;
+            transferCounter = max;
             output += "\n";
         }
     }
@@ -135,4 +172,55 @@ void WriteWithColor(string input, ConsoleColor color)
     Console.ForegroundColor = color;
     Console.Write(input);
     Console.ResetColor();
+}
+
+(int,int) Select(string variants, string subject, int cursorTop = 1, int cursorLeft = 0, int boundsHorizontal = 0, int boundsVertical = 0, int jump = 2)
+{
+    Console.Clear();
+    Console.WriteLine($"Выберите стрелочками {subject}:");
+    Console.WriteLine(variants);
+
+    Console.CursorTop = cursorTop;
+    Console.CursorLeft = cursorLeft;
+
+    while ((key = Console.ReadKey(true).Key) != ConsoleKey.Enter)
+    {
+            if (key == ConsoleKey.LeftArrow)
+            {
+                if (Console.CursorLeft == cursorLeft)
+                {
+                    Console.CursorLeft = boundsHorizontal + cursorLeft;
+                }
+                else Console.CursorLeft -= jump;
+            }
+            else if (key == ConsoleKey.RightArrow)
+            {
+                Console.CursorLeft += jump;
+
+                if (Console.CursorLeft > boundsHorizontal)
+                {
+                    Console.CursorLeft = cursorLeft;
+                }
+            }
+        {
+            if (key == ConsoleKey.UpArrow)
+            {
+                if (Console.CursorTop == cursorTop)
+                {
+                    Console.CursorTop = boundsVertical + cursorTop;
+                }
+                else Console.CursorTop--;
+            }
+            else if (key == ConsoleKey.DownArrow)
+            {
+                Console.CursorTop++;
+
+                if (Console.CursorTop > boundsVertical)
+                {
+                    Console.CursorTop = cursorTop;
+                }
+            }
+        }
+    }
+    return (Console.CursorLeft, Console.CursorTop);
 }
