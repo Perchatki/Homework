@@ -15,7 +15,7 @@
     {
         if (EnergyStorage >= Engine.EnergyConsumption * distance / 100)
         {
-            Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance + "КВт*Ч");
+            Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance / 100 + "КВт*Ч");
         }
         else
         {

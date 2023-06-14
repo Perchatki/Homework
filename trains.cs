@@ -15,7 +15,7 @@
     }
     public void Route(double distance)
     {
-        if (EnergyStorage >= Engine.EnergyConsumption * distance / 100) Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance + "КВт*Ч");
+        if (EnergyStorage >= Engine.EnergyConsumption * distance / 100) Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance / 100 + "КВт*Ч");
         else Console.WriteLine("Не хватает объёма бака");
     }
 }

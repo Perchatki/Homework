@@ -20,7 +20,7 @@
     {
         if (EnergyStorage >= Engine.EnergyConsumption * distance / 100)
         {
-            Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance + "КВт*Ч");
+            Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance / 100 + "КВт*Ч");
         }
         else
         {
@@ -45,7 +45,7 @@ public sealed class PassangerPlane : Plane
     {
         if (EnergyStorage >= Engine.EnergyConsumption * distance / 100 && passangersAmount <= PassangerAmount)
         {
-            Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance + "КВт*Ч");
+            Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance / 100 + "КВт*Ч");
         }
         else
         {
@@ -76,7 +76,7 @@ public sealed class CargoPlane : Plane
     {
         if (EnergyStorage >= Engine.EnergyConsumption * distance/100 && weight <= CarryWeight)
         {
-            Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance + "КВт*Ч");
+            Console.WriteLine("Затрачено энергии - " + Engine.EnergyConsumption * distance / 100 + "КВт*Ч");
         }
         else
         {
