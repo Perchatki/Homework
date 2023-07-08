@@ -1,78 +1,203 @@
-﻿Engine v6 = new("Volvo", "V6 PRV engine", 97, 300);
+﻿int account = 0;
 
-PassangerCar car = new("DeLorean", "DMC", v6, 800, 800, 100, 3000000, 1, 2);
-Console.WriteLine(car.GetInfo());
-Console.WriteLine();
-
-Lorry lorry = new("LIAZ 123", "LIAZ", v6, 800, 800, 100, 3000000, 100000, 2);
-Console.WriteLine(lorry.GetInfo());
-Console.WriteLine();
-
-CargoPlane cargoPlane = new("Boeing 123", "Boeing", v6, 8000, 80000, 500, 300000000, 1000000, 10, 0);
-cargoPlane.Flight(100, 10000);
-Console.WriteLine();
-Console.WriteLine(cargoPlane.GetInfo());
-Console.WriteLine();
-
-PassangerPlane passangerPlane = new("Boeing 767", "Boeing", v6, 700, 80000, 100, 300000000, 10, 100, true);
-Console.WriteLine(passangerPlane.GetInfo());
-Console.WriteLine();
-
-Train train = new("Ласточка", "РЖД", v6, 8000000, 800000, 70, 800000000, 800, 10);
-Console.WriteLine(train.GetInfo());
-Console.WriteLine();
-
-public abstract class Transport
+List<Good> goods = new()
 {
-    public string Name { get; private set; }
-    public string Manufacturer { get; private set; }
+    new(10, 100, "Чипсончики"),
+    new(10, 100, "Энергосик"),
+    new(10, 100, "Сухарёчки"),
+    new(10, 100, "Кола"),
+    new(10, 100, "КитКат"),
+    new(10, 100, "Твикс"),
+    new(10, 100, "Сникерс"),
+    new(10, 100, "Пряник"),
+    new(10, 100, "Шоколадка"),
+    new(10, 100, "Фанта")
+};
 
-    /// <summary> Количество энергии в баке/батарее в КВт*Ч </summary>
-    public double EnergyStorage { get; private set; }
-    public double Weight { get; private set; }
-    public double Speed { get; private set; }
-    public double Price { get; private set; }
-    public int PassangerAmount { get; private set; }
 
-    public Transport(string name, string manufacturer, double energyStorage, double weight, double speed, double price, int passangerAmount = 4)
+
+
+while (true)
+{
+    if (account > 0)
     {
-        Name = name;
-        Manufacturer = manufacturer;
-        PassangerAmount = passangerAmount;
-        EnergyStorage = energyStorage;
-        Weight = weight;
-        Speed = speed;
+        Console.WriteLine("На счету " + account + " Рублей");
+    }
+
+    Console.WriteLine("Введите Команду: AddMoney, GetChange, ShowGoods, BuyGood {id} {count}");
+repeatCommand:
+    string[] command = Console.ReadLine().Split(" ");
+    switch (command[0])
+    {
+        case "AddMoney":
+            if (command.Length < 2)
+            {
+                AddMoney();
+                break;
+            }
+            Console.Clear();
+            Console.WriteLine("Неверная команда, повторите ввод");
+            goto repeatCommand;
+        case "GetChange":
+            if (command.Length < 2)
+            {
+                GetChange();
+                break;
+            }
+            Console.Clear();
+            Console.WriteLine("Неверная команда, повторите ввод");
+            goto repeatCommand;
+        case "ShowGoods":
+            if (command.Length < 2)
+            {
+                ShowGoods();
+                break;
+            }
+            Console.Clear();
+            Console.WriteLine("Неверная команда, повторите ввод");
+            goto repeatCommand;
+        case "BuyGood":
+            if (command.Length == 3 && int.TryParse(command[1], out int _) && int.TryParse(command[2], out int _))
+            {
+                BuyGood(command);
+                break;
+            }
+            Console.Clear();
+            Console.WriteLine("Неверная команда, повторите ввод");
+            goto repeatCommand;
+        default:
+            Console.Clear();
+            Console.WriteLine("Неверная команда, повторите ввод");
+            goto repeatCommand;
+    }
+}
+
+void AddMoney()
+{
+    Console.WriteLine("Введите тип оплаты: Монеты или Карта");
+paymentSelect:
+    string paymentMethod = Console.ReadLine();
+    switch (paymentMethod)
+    {
+        case "Монеты":
+            AddToAccount(true);
+            break;
+        case "Карта":
+            AddToAccount(false);
+            break;
+        default:
+            Console.Clear();
+            Console.WriteLine("Неверный тип оплаты, повторите ввод: Монеты или Карта");
+            goto paymentSelect;
+    }
+}
+
+int CountCoins(string coins, bool isCoins)
+{
+    int result = 0;
+    int i = 0;
+    int[] multipliers = new int[] { 1, 2, 5, 10 };
+    if (isCoins)
+    {
+        foreach (string coin in coins.Split(' '))
+        {
+            if (i > 3 || !int.TryParse(coin, out int add))
+            {
+                return -1;
+            }
+
+            result += add * multipliers[i];
+            i++;
+        }
+    }
+    else if (!int.TryParse(coins, out result))
+    {
+        return -1;
+    }
+
+    return result;
+}
+
+void AddToAccount(bool isCoins)
+{
+    Console.WriteLine($"Выбранный тип оплаты: {(isCoins ? "Монеты" : "Карта")}" +
+                $"\nВведите количество {(isCoins ? "монет по 1, 2, 5 и 10 рублей через пробел" : "рублей")} ");
+countCoins:
+    string coins = Console.ReadLine();
+    int addCoins = CountCoins(coins, isCoins);
+    if (addCoins < 0)
+    {
+        Console.WriteLine("Ошибка ввода, повторите ввод монет по 1, 2, 5 и 10 рублей через пробел");
+        goto countCoins;
+    }
+    else
+    {
+        account += addCoins;
+        Console.WriteLine($"Введено {addCoins} рублей");
+        _ = Console.ReadKey(true);
+        Console.Clear();
+    }
+}
+
+void GetChange() //1, 2, 5, 10
+{
+    int accountBuffer = account;
+    int[] result = { 0, 0, 0, 0 };
+    int i;
+    int[] multipliers = new int[] { 10, 5, 2, 1 };
+    for (i = 0; i < multipliers.Length; i++)
+    {
+        result[i] = accountBuffer / multipliers[i];
+        accountBuffer -= result[i] * multipliers[i];
+    }
+    account = 0;
+    Console.WriteLine($"Получено монет номиналом 10 - {result[0]}, 5 - {result[1]}, 2 - {result[2]}, 1 - {result[3]}");
+}
+
+void ShowGoods()
+{
+    foreach (Good good in goods)
+    {
+        Console.WriteLine($"Название - {good.Name}; Цена - {good.Price}; Количество - {good.Count}");
+    }
+    _ = Console.ReadKey(true);
+    Console.Clear();
+}
+
+void BuyGood(string[] command)
+{
+    if (int.TryParse(command[1], out int id) && int.TryParse(command[2], out int count))
+    {
+        int price = goods[id].Buy(count, account);
+        if (price < 0)
+        {
+            Console.WriteLine("Ошибка количества товара или средств");
+            _ = Console.ReadKey(true);
+            Console.Clear();
+            return;
+        }
+        Console.WriteLine($"Куплено - {goods[id].Name} В количестве - {count} По цене - {count * goods[id].Price}");
+        account -= price;
+        _ = Console.ReadKey(true);
+        Console.Clear();
+    }
+}
+
+internal class Good
+{
+    public int Count { get; private set; }
+    public int Price { get; private set; }
+    public string Name { get; private set; }
+
+    public Good(int count, int price, string name)
+    {
+        Count = count;
         Price = price;
-    }
-
-    public virtual string GetInfo()
-    {
-        return $"Название - {Name};\nПроизводитель - {Manufacturer};\nКоличество пассажиров - {PassangerAmount};\nВместимось энергии - {EnergyStorage}КВт*ч;\nВес - {Weight}Кг;\nСкорость - {Speed}Км/Ч;\nЦена - {Price} Рублей;";
-    }
-}
-public class Engine
-{
-    public string Name { get; private set; }
-    public string Manufacturer { get; private set; }
-
-    /// <summary> Мощность в КВт </summary>
-    public double Power { get; private set; }
-
-    /// <summary> Энергопотребление в КВт*Ч/100Км </summary>
-    public double EnergyConsumption { get; private set; }
-
-    public Engine(string manufacturer, string name, double power, double energyConsumption)
-    {
-        Manufacturer = manufacturer;
         Name = name;
-        Power = power;
-        EnergyConsumption = energyConsumption;
     }
 
-    public override string ToString()
+    public int Buy(int count, int account)
     {
-        return $"Название - {Name};\nМощность - {Power}КВт;\nЭнергопотребление - {EnergyConsumption}КВт*Ч/100Км";
+        return count * Price > account || count > Count || count <= 0 ? -1 : count * Price;
     }
 }
-
-
