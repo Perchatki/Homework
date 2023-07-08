@@ -127,7 +127,7 @@ countCoins:
     int addCoins = CountCoins(coins, isCoins);
     if (addCoins < 0)
     {
-        Console.WriteLine("Ошибка ввода, повторите ввод монет по 1, 2, 5 и 10 рублей через пробел");
+        Console.WriteLine($"Ошибка ввода, повторите ввод {(isCoins ? "монет по 1, 2, 5 и 10 рублей через пробел" : "суммы денег")}");
         goto countCoins;
     }
     else
@@ -152,6 +152,8 @@ void GetChange() //1, 2, 5, 10
     }
     account = 0;
     Console.WriteLine($"Получено монет номиналом 10 - {result[0]}, 5 - {result[1]}, 2 - {result[2]}, 1 - {result[3]}");
+    _ = Console.ReadKey(true);
+    Console.Clear();
 }
 
 void ShowGoods()
@@ -168,8 +170,14 @@ void BuyGood(string[] command)
 {
     if (int.TryParse(command[1], out int id) && int.TryParse(command[2], out int count))
     {
-        int price = goods[id].Buy(count, account);
-        if (price < 0)
+        int price = -1;
+
+        if (id < goods.Count && id >= 0)
+        {
+            price = goods[id].Buy(count, account);
+        }
+
+        if (price < 0 || id >= goods.Count)
         {
             Console.WriteLine("Ошибка количества товара или средств");
             _ = Console.ReadKey(true);
@@ -198,6 +206,14 @@ internal class Good
 
     public int Buy(int count, int account)
     {
-        return count * Price > account || count > Count || count <= 0 ? -1 : count * Price;
+        if (count * Price > account || count > Count || count <= 0)
+        {
+            return -1;
+        }
+        else
+        {
+            Count -= count;
+            return count * Price;
+        }
     }
 }
